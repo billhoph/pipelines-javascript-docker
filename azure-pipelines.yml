@@ -16,6 +16,8 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '37dfe4f3-bb18-406e-ad7a-6a3fcf70f9a6'
   imageRepository: 'fwddemoapp'
+  dockerId: 'fwddemoacr'
+  pswd: 'DTg/Oytm+ok0jC9U9GQ8/JiY5t6kLHPJUAZGvZuakF+ACRAVzj60'
   containerRegistry: 'fwddemoacr.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
@@ -70,6 +72,19 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+    - upload: manifests
+      artifact: manifests
+
+- stage: ImageScan
+  displayName: Image Scanning stage
+  jobs:
+  - job: ImageScan
+    displayName: Image Scanning stage
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - script: docker login -u $(dockerId) -p $(pswd) $(dockerId).azurecr.io
+    - script: docker pull $(containerRegistry)/$(imageRepository):$(tag)
     - task: prisma-cloud-compute-scan@3
       displayName: 'Container Image Scanning'
       continueOnError: true
@@ -77,12 +92,10 @@ stages:
         scanType: images
         twistlockService: 'prisma-cloud-demo'
         artifact: $(containerRegistry)/$(imageRepository):$(tag)
-    - upload: manifests
-      artifact: manifests
 
 - stage: Deploy
   displayName: Deploy stage
-  dependsOn: Build
+  dependsOn: ImageScan
 
   jobs:
   - deployment: Deploy
