@@ -84,6 +84,7 @@ stages:
     steps:
     - task: prisma-cloud-compute-scan@3
       displayName: 'Container Image Scanning'
+      continueOnError: true
       inputs:
         scanType: 'images'
         twistlockService: 'prisma-cloud-demo'
