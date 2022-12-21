@@ -25,11 +25,11 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: Repo Scanning
+- stage: RepoScan
   displayName: Repo Scanning stage
   jobs:
   - job: RepoScan
-    displayName: Repo Scan
+    displayName: Scanning Github Repo
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -73,11 +73,11 @@ stages:
     - upload: manifests
       artifact: manifests
 
-- stage: Image Scanning
+- stage: ImageScan
   displayName: Image Scanning stage
   jobs:
   - job: ImageScan
-    displayName: Image Scan
+    displayName: Scanning Docker Images Created
     pool:
       vmImage: $(vmImageName)
     steps:
