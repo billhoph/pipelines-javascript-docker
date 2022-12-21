@@ -70,24 +70,16 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - upload: manifests
-      artifact: manifests
-
-- stage: ImageScan
-  displayName: Image Scanning stage
-  jobs:
-  - job: ImageScan
-    displayName: Scanning Docker Images Created
-    pool:
-      vmImage: $(vmImageName)
-    steps:
     - task: prisma-cloud-compute-scan@3
       displayName: 'Container Image Scanning'
       continueOnError: true
       inputs:
-        scanType: 'images'
+        scanType: images
         twistlockService: 'prisma-cloud-demo'
         artifact: $(containerRegistry)/$(imageRepository):$(tag)
+        project: 'fwd-demo-test'
+    - upload: manifests
+      artifact: manifests
 
 - stage: Deploy
   displayName: Deploy stage
