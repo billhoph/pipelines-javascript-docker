@@ -46,7 +46,7 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testRunTitle: "Checkov Results"
-        failTaskOnFailedTests: true
+        failTaskOnFailedTests: false
         testResultsFormat: "JUnit"
         testResultsFiles: "CheckovReport.xml"
         searchFolder: "$(System.DefaultWorkingDirectory)"
