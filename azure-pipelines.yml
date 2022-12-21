@@ -83,7 +83,7 @@ stages:
 
 - stage: Deploy
   displayName: Deploy stage
-  dependsOn: ImageScan
+  dependsOn: Build
 
   jobs:
   - deployment: Deploy
