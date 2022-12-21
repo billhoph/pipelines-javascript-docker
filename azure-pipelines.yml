@@ -90,7 +90,7 @@ stages:
 
 - stage: Deploy
   displayName: Deploy stage
-  dependsOn: Build
+  dependsOn: ImageScan
 
   jobs:
   - deployment: Deploy
