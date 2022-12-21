@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: fwddemoapp 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fwddemoapp
+  template:
+    metadata:
+      labels:
+        app: fwddemoapp 
+    spec:
+      containers:
+        - name: fwddemoapp 
+          image: fwddemoacr.azurecr.io/fwddemoapp
+          ports:
+          - containerPort: 8080
