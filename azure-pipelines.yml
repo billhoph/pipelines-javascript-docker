@@ -5,6 +5,9 @@
 trigger:
 - main
 
+pool:
+  vmImage: ubuntu-latest
+
 resources:
 - repo: self
 
@@ -21,8 +24,34 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-
 stages:
+- stage: Repo Scanning
+  displayName: Repo Scanning stage
+  jobs:
+  - job: RepoScan
+    displayName: Repo Scan
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.8'
+      displayName: 'Install Python 3.8'
+    - script: pip install checkov
+      displayName: 'Install Checkov'
+    - script: checkov -d . --bc-api-key 45af728a-ef0f-402e-b4c3-acb9ed5f2c01::Lio1DUw9nzQEJZPcd/DT2Y89n4E= --repo-id billhoph/pipelines-javascript-docker --branch main -o cli -o junitxml --output-file-path console,CheckovReport.xml 
+      displayName: 'Scan with Prisma Cloud'
+      env:
+        PRISMA_API_URL: https://api.sg.prismacloud.io
+    - task: PublishTestResults@2
+      inputs:
+        testRunTitle: "Checkov Results"
+        failTaskOnFailedTests: true
+        testResultsFormat: "JUnit"
+        testResultsFiles: "CheckovReport.xml"
+        searchFolder: "$(System.DefaultWorkingDirectory)"
+      displayName: "Publish > Checkov scan results"
+
 - stage: Build
   displayName: Build stage
   jobs:
@@ -43,6 +72,21 @@ stages:
 
     - upload: manifests
       artifact: manifests
+
+- stage: Image Scanning
+  displayName: Image Scanning stage
+  jobs:
+  - job: ImageScan
+    displayName: Image Scan
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: prisma-cloud-compute-scan@3
+      displayName: 'Container Image Scanning'
+      inputs:
+        scanType: 'images'
+        twistlockService: 'prisma-cloud-demo'
+        artifact: $(containerRegistry)/$(imageRepository):$(tag)
 
 - stage: Deploy
   displayName: Deploy stage
