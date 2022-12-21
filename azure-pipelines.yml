@@ -34,7 +34,6 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - task: UsePythonVersion@0
-      continueOnError: true
       inputs:
         versionSpec: '3.8'
       displayName: 'Install Python 3.8'
@@ -42,6 +41,7 @@ stages:
       displayName: 'Install Checkov'
     - script: checkov -d . --bc-api-key 45af728a-ef0f-402e-b4c3-acb9ed5f2c01::Lio1DUw9nzQEJZPcd/DT2Y89n4E= --repo-id billhoph/pipelines-javascript-docker --branch main -o cli -o junitxml --output-file-path console,CheckovReport.xml 
       displayName: 'Scan with Prisma Cloud'
+      continueOnError: true
       env:
         PRISMA_API_URL: https://api.sg.prismacloud.io
     - task: PublishTestResults@2
