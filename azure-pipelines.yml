@@ -77,7 +77,6 @@ stages:
         scanType: images
         twistlockService: 'prisma-cloud-demo'
         artifact: $(containerRegistry)/$(imageRepository):$(tag)
-        project: 'Azure Devops Pipeline 01'
     - upload: manifests
       artifact: manifests
 
