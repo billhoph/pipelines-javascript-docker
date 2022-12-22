@@ -3,7 +3,7 @@ const app = express()
 const port = 8080
 
 app.get('/', (req, res) => {
-  res.send('Prisma Cloud Azure Devops Integration Test')
+  res.send('Prisma Cloud Azure Devops Integration Demo for FWD')
 })
 
 app.listen(port, () => {
