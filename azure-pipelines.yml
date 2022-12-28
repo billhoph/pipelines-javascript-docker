@@ -41,7 +41,7 @@ stages:
       displayName: 'Install Python 3.8'
     - script: pip install checkov
       displayName: 'Install Checkov'
-    - script: checkov -d . --bc-api-key ce4c6ed8-0de2-4ed2-9eec-9d3ab88c5346::YQs74YXzN9wKdmJdV4zkZFgC10g= --repo-id billhoph/pipelines-javascript-docker --branch main -o cli -o junitxml --output-file-path console,CheckovReport.xml --soft-fail 
+    - script: checkov -d . --use-enforcement-rules --bc-api-key ce4c6ed8-0de2-4ed2-9eec-9d3ab88c5346::YQs74YXzN9wKdmJdV4zkZFgC10g= --repo-id billhoph/pipelines-javascript-docker --branch main -o cli -o junitxml --output-file-path console,CheckovReport.xml 
       displayName: 'Scan with Prisma Cloud'
       env:
         PRISMA_API_URL: https://api.prismacloud.io
