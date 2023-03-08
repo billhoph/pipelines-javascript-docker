@@ -1,19 +1,19 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: fwddemoapp 
+  name: ado-demo-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fwddemoapp
+      app: ado-demo-app
   template:
     metadata:
       labels:
-        app: fwddemoapp 
+        app: ado-demo-app 
     spec:
       containers:
-        - name: fwddemoapp 
-          image: fwddemoacr.azurecr.io/fwddemoapp
+        - name: ado-demo-app 
+          image: harbor.alson.space/demo/ado-demo-app
           ports:
           - containerPort: 8080
