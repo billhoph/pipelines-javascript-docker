@@ -14,14 +14,14 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '37dfe4f3-bb18-406e-ad7a-6a3fcf70f9a6'
-  imageRepository: 'fwddemoapp'
-  dockerId: 'fwddemoacr'
-  pswd: 'DTg/Oytm+ok0jC9U9GQ8/JiY5t6kLHPJUAZGvZuakF+ACRAVzj60'
-  containerRegistry: 'fwddemoacr.azurecr.io'
+  dockerRegistryServiceConnection: 'harbor'
+  imageRepository: 'demo'
+  dockerId: 'admin'
+  pswd: 'Harbor12345'
+  containerRegistry: 'harbor.alson.space'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'fwddemoacr098d-auth'
+  imagePullSecret: 'harbor-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
