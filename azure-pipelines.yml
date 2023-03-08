@@ -103,7 +103,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'billhophpipelinesjavascriptdocker.fwd-demo'
+    environment: 'billhophpipelinesjavascriptdocker'
     strategy:
       runOnce:
         deploy:
