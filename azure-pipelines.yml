@@ -82,7 +82,7 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - script: docker login -u $(dockerId) -p $(pswd) $(dockerId).azurecr.io
+    - script: docker login -u $(dockerId) -p $(pswd) $(containerRegistry)
       displayName: 'Docker Login Harbor'
     - script: docker pull $(containerRegistry)/$(imageRepository):$(tag)
       displayName: 'Docker Pull Image'
