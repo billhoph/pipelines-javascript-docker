@@ -121,6 +121,7 @@ stages:
             inputs:
               action: deploy
               kubernetesServiceConnection: demo-eks-01
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
                 $(Pipeline.Workspace)/manifests/service.yml
