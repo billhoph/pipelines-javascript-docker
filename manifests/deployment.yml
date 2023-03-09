@@ -10,10 +10,10 @@ spec:
   template:
     metadata:
       labels:
-        app: ado-demo-app 
+        app: ado-demo-app
     spec:
       containers:
-        - name: ado-demo-app 
+        - name: ado-demo-app
           image: harbor.alson.space/demo/ado-demo-app
           ports:
           - containerPort: 8080
