@@ -5,9 +5,9 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY ["package.json", "package-lock.json*", "./"]
-
+RUN npm I npm@6 -g
 RUN npm install --omit=dev
+COPY ["package.json", "package-lock.json*", "./"]
 
 COPY . .
 
