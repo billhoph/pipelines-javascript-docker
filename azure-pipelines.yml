@@ -14,14 +14,14 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'harbor'
-  imageRepository: 'demo/ado-demo-app'
-  dockerId: 'admin'
-  pswd: 'Harbor12345'
-  containerRegistry: 'harbor.alson.space'
+  dockerRegistryServiceConnection: 'dockerhub'
+  imageRepository: 'joanjoho/ado-demo-app'
+  dockerId: 'joanjoho'
+  pswd: 'Abcde12345'
+  containerRegistry: 'registry.hub.docker.com'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'harbor-auth'
+  imagePullSecret: 'docker-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -125,7 +125,7 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
                 $(Pipeline.Workspace)/manifests/service.yml
-              #imagePullSecrets: |
-              #  $(imagePullSecret)
+              imagePullSecrets: |
+                $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
