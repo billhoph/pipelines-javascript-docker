@@ -1,14 +1,3 @@
-FROM node:19
-
-ENV NODE_ENV=production
-
-WORKDIR /app
-
-COPY ["package.json", "package-lock.json*", "./"]
-
-RUN npm install --production
-
-COPY . .
-
+FROM nginx
 EXPOSE 8080
-CMD [ "node", "server.js" ]
+CMD ["nginx", "-g", "daemon off;"]
