@@ -3,7 +3,7 @@ const app = express()
 const port = 8080
 
 app.get('/', (req, res) => {
-  res.send('Azure Devops Integration Demo for XXXXXX')
+  res.send('Azure Devops Integration Demo for Demo')
 })
 
 app.listen(port, () => {
