@@ -74,6 +74,26 @@ stages:
     - upload: manifests
       artifact: manifests
 
+- stage: StaticAnalysis
+  displayName: Static Analysis
+  jobs:
+  - job: StaticAnalysis
+    displayName: Performing Static Analysis On Code
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.8'
+      displayName: 'Install Python 3.8'
+    - script: pip install checkov
+      displayName: 'Install Checkov'
+    - script: checkov -d . --use-enforcement-rules --bc-api-key ce4c6ed8-0de2-4ed2-9eec-9d3ab88c5346::YQs74YXzN9wKdmJdV4zkZFgC10g= --repo-id billhoph/pipelines-javascript-docker --branch main -o cyclonedx  
+      displayName: 'Generate SBOM'
+      env:
+        PRISMA_API_URL: https://api.prismacloud.io
+
+
 - stage: ImageScan
   displayName: Image Scanning stage
   jobs:
