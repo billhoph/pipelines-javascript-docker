@@ -93,7 +93,17 @@ stages:
       displayName: 'Generate SBOM'
       env:
         PRISMA_API_URL: https://api.prismacloud.io
-
+      continueOnError: true
+    - script: checkov -d . --use-enforcement-rules --bc-api-key ce4c6ed8-0de2-4ed2-9eec-9d3ab88c5346::YQs74YXzN9wKdmJdV4zkZFgC10g= --repo-id billhoph/pipelines-javascript-docker --branch main -o cyclonedx  
+      displayName: 'OSS Licensing Checking'
+      env:
+        PRISMA_API_URL: https://api.prismacloud.io
+      continueOnError: true
+    - script: checkov -d . --use-enforcement-rules --bc-api-key ce4c6ed8-0de2-4ed2-9eec-9d3ab88c5346::YQs74YXzN9wKdmJdV4zkZFgC10g= --repo-id billhoph/pipelines-javascript-docker --branch main -o cyclonedx  
+      displayName: 'Software Composition Analysis'
+      env:
+        PRISMA_API_URL: https://api.prismacloud.io
+      continueOnError: true
 
 - stage: ImageScan
   displayName: Image Scanning stage
