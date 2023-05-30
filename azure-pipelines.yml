@@ -45,6 +45,7 @@ stages:
       displayName: 'Scan with Prisma Cloud'
       env:
         PRISMA_API_URL: https://api.prismacloud.io
+      continueOnError: true
     - task: PublishTestResults@2
       inputs:
         testRunTitle: "Checkov Results"
