@@ -105,6 +105,32 @@ stages:
         PRISMA_API_URL: https://api.prismacloud.io
       continueOnError: true
 
+- stage: UnitTest
+  displayName: Unit Test
+  jobs:
+  - job: UnitTest
+    displayName: Performing Unit Test On Built Artifact
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.8'
+      displayName: 'Install Python 3.8'
+
+- stage: SAST
+  displayName: SAST
+  jobs:
+  - job: SAST
+    displayName: SAST
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.8'
+      displayName: 'Install Python 3.8'
+
 - stage: ImageScan
   displayName: Image Scanning stage
   jobs:
