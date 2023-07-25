@@ -57,6 +57,7 @@ stages:
 
 - stage: Build
   displayName: Build stage
+  dependsOn: RepoScan
   jobs:
   - job: Build
     displayName: Build
@@ -77,6 +78,7 @@ stages:
 
 - stage: UnitTest
   displayName: Unit Test
+  dependsOn: Build
   jobs:
   - job: UnitTest
     displayName: Performing Unit Test On Built Artifact
@@ -90,6 +92,7 @@ stages:
 
 - stage: ImageScan
   displayName: Image Scanning stage
+  dependsOn: UnitTest
   jobs:
   - job: ImageScan
     displayName: Image Scanning stage
