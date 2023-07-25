@@ -75,59 +75,11 @@ stages:
     - upload: manifests
       artifact: manifests
 
-- stage: StaticAnalysis
-  displayName: Static Analysis
-  jobs:
-  - job: StaticAnalysis
-    displayName: Performing Static Analysis On Code
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.8'
-      displayName: 'Install Python 3.8'
-    - script: pip install checkov
-      displayName: 'Install Checkov'
-    - script: checkov -d . --use-enforcement-rules --bc-api-key ce4c6ed8-0de2-4ed2-9eec-9d3ab88c5346::YQs74YXzN9wKdmJdV4zkZFgC10g= --repo-id billhoph/pipelines-javascript-docker --branch main  --prisma-api-url https://api.prismacloud.io -o cyclonedx
-      displayName: 'Generate SBOM'
-      env:
-        PRISMA_API_URL: https://api.prismacloud.io
-      continueOnError: true
-    - script: checkov -d . --use-enforcement-rules --bc-api-key ce4c6ed8-0de2-4ed2-9eec-9d3ab88c5346::YQs74YXzN9wKdmJdV4zkZFgC10g= --repo-id billhoph/pipelines-javascript-docker --branch main --prisma-api-url https://api.prismacloud.io --framework sca_image  
-      displayName: 'OSS Licensing Checking'
-      env:
-        PRISMA_API_URL: https://api.prismacloud.io
-      continueOnError: true
-    - script: checkov -d . --use-enforcement-rules --bc-api-key ce4c6ed8-0de2-4ed2-9eec-9d3ab88c5346::YQs74YXzN9wKdmJdV4zkZFgC10g= --repo-id billhoph/pipelines-javascript-docker --branch main --prisma-api-url https://api.prismacloud.io --framework sca_package  
-      displayName: 'Software Composition Analysis'
-      env:
-        PRISMA_API_URL: https://api.prismacloud.io
-      continueOnError: true
-    - script: checkov -d . --use-enforcement-rules --bc-api-key ce4c6ed8-0de2-4ed2-9eec-9d3ab88c5346::YQs74YXzN9wKdmJdV4zkZFgC10g= --repo-id billhoph/pipelines-javascript-docker --branch main --prisma-api-url https://api.prismacloud.io --framework secrets  
-      displayName: 'Secret Scanning'
-      env:
-        PRISMA_API_URL: https://api.prismacloud.io
-      continueOnError: true
-
 - stage: UnitTest
   displayName: Unit Test
   jobs:
   - job: UnitTest
     displayName: Performing Unit Test On Built Artifact
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.8'
-      displayName: 'Install Python 3.8'
-
-- stage: SAST
-  displayName: SAST
-  jobs:
-  - job: SAST
-    displayName: SAST
     pool:
       vmImage: $(vmImageName)
     steps:
